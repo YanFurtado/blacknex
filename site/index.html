@@ -1294,7 +1294,7 @@ section.block,section.sec:not(#sistema),footer{content-visibility:auto;contain-i
    Nenhuma tag opcional roda antes do aceite. Para ativar, preencha os IDs abaixo. */
 (() => {
   const CFG = {
-    metaPixel: ''   // ← cole aqui o ID do Pixel da Meta, ex.: '123456789012345'
+    metaPixel: '1495161545765232'   // Pixel da Meta "NEX Black" (o mesmo ID está em diagnostico.html)
   };
   const KEY = 'nex-cookie-consent-v1';
   const $ = id => document.getElementById(id);
@@ -1341,7 +1341,7 @@ section.block,section.sec:not(#sistema),footer{content-visibility:auto;contain-i
   document.addEventListener('click', e => {
     const a = e.target.closest('a'); if (!a) return;
     const h = a.getAttribute('href') || '';
-    if (a.classList.contains('pc-btn')) { const plan = a.textContent.replace('Assinar', '').trim(); const val = { Gold: 597, Platinum: 897, Black: 1297 }[plan]; track('InitiateCheckout', { content_name: 'Plano ' + plan, value: val, currency: 'BRL' }); }
+    if (a.classList.contains('pc-btn') || a.id === 'bf-cta') { const plan = (a.textContent.match(/Gold|Platinum|Black/) || ['Black'])[0]; const val = { Gold: 597, Platinum: 897, Black: 997 }[plan]; track('InitiateCheckout', { content_name: 'Plano ' + plan, value: val, currency: 'BRL' }); }
     else if (a.id === 'lead-wa') track('Lead', { content_name: 'Formulário do topo' });
     else if (h.includes('wa.me')) track('Contact', { content_name: 'WhatsApp' });
     else if (h.includes('diagnostico.html')) track('ViewContent', { content_name: 'Diagnóstico comercial' });

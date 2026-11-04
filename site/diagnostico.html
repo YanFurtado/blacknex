@@ -6,6 +6,17 @@
 <title>Diagnóstico NEX</title><link rel="icon" href="favicon.ico" sizes="any"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<script>
+/* Meta Pixel: só carrega se a pessoa aceitou os cookies de marketing no site (escolha salva pelo banner de index.html). */
+(() => {
+  const PIXEL = '1495161545765232';
+  let c = null; try { c = JSON.parse(localStorage.getItem('nex-cookie-consent-v1') || 'null'); } catch (e) {}
+  if (!c || !c.marketing) return;
+  !function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s) }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', PIXEL); fbq('track', 'PageView');
+})();
+window.nexTrack = (name, params) => { try { if (window.fbq) fbq('track', name, params || {}); } catch (e) {} };
+</script>
 <style>
 /* Layout: uma coluna central (máx. 720px), formulário em etapas com barra de progresso; resultado em barras por área */
 :root{
@@ -430,10 +441,11 @@ input::placeholder,textarea::placeholder{color:#6f66a0}
   form.addEventListener('submit', e => {
     e.preventDefault();
     if (!validate(cur)) return;
-    cur++; if (cur > TOTAL) renderResult();
+    cur++; if (cur > TOTAL) { renderResult(); window.nexTrack('Lead', { content_name: 'Diagnóstico comercial' }); }
     show(cur); save();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+  $('r-wa').addEventListener('click', () => window.nexTrack('Contact', { content_name: 'Diagnóstico no WhatsApp' }));
   $('prev').addEventListener('click', () => { if (cur > 1) { cur--; show(cur, true); save(); } });
   $('r-redo').addEventListener('click', () => { form.reset(); try { localStorage.removeItem(STORE); } catch (e) {} cur = 1; show(1, true); });
 
