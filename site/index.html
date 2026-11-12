@@ -3,6 +3,33 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Meta Pixel Code (ID 1495161545765232): só carrega depois do aceite de cookies de marketing (LGPD). -->
+<script>
+window.nexLoadPixel = function () {
+  if (window.fbq) return; // já carregado: não repete o PageView
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('set', 'autoConfig', false, '1495161545765232'); // sem eventos automáticos da Meta (SubscribedButtonClick): os cliques já são enviados abaixo
+  fbq('init', '1495161545765232');
+  fbq('track', 'PageView');
+};
+(function () {
+  var c = null; try { c = JSON.parse(localStorage.getItem('nex-cookie-consent-v1') || 'null'); } catch (e) {}
+  window.nexConsent = c;
+  if (c && c.marketing) window.nexLoadPixel();
+})();
+// Único ponto de envio de eventos: só sai com consentimento de marketing e Pixel carregado. custom = true usa trackCustom.
+window.nexTrack = function (name, params, custom) {
+  try { if (window.nexConsent && window.nexConsent.marketing && window.fbq) fbq(custom ? 'trackCustom' : 'track', name, params || {}); } catch (e) {}
+};
+</script>
+<!-- End Meta Pixel Code -->
 <title>BlackNEX</title><link rel="icon" href="favicon.ico" sizes="any"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="description" content="NEX: CRM com Agente de IA no WhatsApp. Atenda, qualifique e agende seus leads em segundos, 24 horas por dia, e veja onde cada venda trava.">
 <meta property="og:title" content="NEX · CRM com Inteligência Artificial">
@@ -1174,7 +1201,7 @@ section.block,section.sec:not(#sistema),footer{content-visibility:auto;contain-i
     </div>
     <div class="ft-col">
       <h4>Informações</h4>
-      <ul><li><a href="https://nexinteligence.com.br/termos" target="_blank" rel="noopener">Termos de uso</a></li><li><a href="https://nexinteligence.com.br/termos" target="_blank" rel="noopener">Política de privacidade</a></li><li><a href="https://nexinteligence.com.br/termos" target="_blank" rel="noopener">LGPD e segurança de dados</a></li><li><a href="https://wa.me/5587988578910?text=Ol%C3%A1!%20Sou%20cliente%20NEX%20e%20preciso%20de%20suporte." target="_blank" rel="noopener">Suporte</a></li></ul>
+      <ul><li><a href="https://nexinteligence.com.br/termos" target="_blank" rel="noopener">Termos de uso</a></li><li><a href="https://nexinteligence.com.br/termos" target="_blank" rel="noopener">Política de privacidade</a></li><li><a href="https://nexinteligence.com.br/termos" target="_blank" rel="noopener">LGPD e segurança de dados</a></li><li><a href="https://wa.me/5587988578910?text=Ol%C3%A1!%20Sou%20cliente%20NEX%20e%20preciso%20de%20suporte." target="_blank" rel="noopener" data-px="suporte">Suporte</a></li></ul>
     </div>
     <div class="ft-col">
       <h4>Redes sociais</h4>
@@ -1233,7 +1260,6 @@ section.block,section.sec:not(#sistema),footer{content-visibility:auto;contain-i
     setTimeout(tick, 1000 - (Date.now() % 1000));
   }
   tick();
-  $('bf-cta').addEventListener('click', () => { try { window.nexTrack && nexTrack('InitiateCheckout', { content_name: 'BlackNEX Black anual', value: por, currency: 'BRL' }); } catch (e) {} });
 })();
 </script>
 
@@ -1324,23 +1350,16 @@ section.block,section.sec:not(#sistema),footer{content-visibility:auto;contain-i
 </div>
 <script>
 /* Consentimento de cookies (LGPD).
-   Nenhuma tag opcional roda antes do aceite. Para ativar, preencha os IDs abaixo. */
+   Nenhuma tag opcional roda antes do aceite. O Meta Pixel fica no <head> (window.nexLoadPixel). */
 (() => {
-  const CFG = {
-    metaPixel: '1495161545765232'   // Pixel da Meta "NEX Black" (o mesmo ID está em diagnostico.html)
-  };
   const KEY = 'nex-cookie-consent-v1';
   const $ = id => document.getElementById(id);
   const bar = $('ck-bar'), modal = $('ck-modal'), mk = $('ck-mk');
   const read = () => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } };
   const write = c => { try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) {} };
-  const loaded = {};
-  const addScript = src => { const s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); };
   function apply(c) {
     window.nexConsent = c;
-    if (c.marketing && CFG.metaPixel && !loaded.px) { loaded.px = 1;
-      !function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s) }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', CFG.metaPixel); fbq('track', 'PageView'); }
+    if (c.marketing) window.nexLoadPixel();
     document.dispatchEvent(new CustomEvent('nex:consent', { detail: c }));
   }
   function decide(c) {
@@ -1369,15 +1388,15 @@ section.block,section.sec:not(#sistema),footer{content-visibility:auto;contain-i
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) closePanel(); });
 
   /* Eventos de conversão do Meta Pixel (só disparam com consentimento de marketing e Pixel carregado). */
-  const track = (name, params) => { try { if (window.nexConsent && window.nexConsent.marketing && window.fbq) fbq('track', name, params || {}); } catch (e) {} };
-  window.nexTrack = track;
+  const track = window.nexTrack; // definido no <head>
   document.addEventListener('click', e => {
     const a = e.target.closest('a'); if (!a) return;
     const h = a.getAttribute('href') || '';
     if (a.classList.contains('pc-btn') || a.id === 'bf-cta') { const plan = (a.textContent.match(/Gold|Platinum|Black/) || ['Black'])[0]; const val = { Gold: 597, Platinum: 897, Black: 830.83 }[plan]; track('InitiateCheckout', { content_name: 'Plano ' + plan, value: val, currency: 'BRL' }); }
-    else if (a.id === 'lead-wa') track('Lead', { content_name: 'Formulário do topo' });
+    else if (a.dataset.px === 'suporte') track('Suporte', { content_name: 'Suporte no WhatsApp' }, true);
     else if (h.includes('wa.me')) track('Contact', { content_name: 'WhatsApp' });
     else if (h.includes('diagnostico.html')) track('ViewContent', { content_name: 'Diagnóstico comercial' });
+    else if (h.includes('google.com/maps')) track('FindLocation', { content_name: 'Como chegar' });
   }, true);
   const saved = read();
   if (saved) apply(saved); else bar.hidden = false;
@@ -1425,28 +1444,6 @@ section.block,section.sec:not(#sistema),footer{content-visibility:auto;contain-i
     el.addEventListener('mouseleave', () => el.style.transform = '');
   });
 
-  if ($('lead-form')) {
-  // ---------- S1 formulário ----------
-  const form = $('lead-form'), wh = $('lf-whats');
-  wh.addEventListener('input', () => {
-    const d = wh.value.replace(/\D/g, '').slice(0, 11);
-    wh.value = d.length > 10 ? `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}` : d.length > 6 ? `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}` : d.length > 2 ? `(${d.slice(0, 2)}) ${d.slice(2)}` : d;
-  });
-  form.addEventListener('input', e => e.target.closest('.fld')?.classList.remove('invalid'));
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const v = { nome: $('lf-nome').value.trim(), whats: wh.value.trim(), emp: $('lf-emp').value.trim(), leads: $('lf-leads').value };
-    const checks = [['lf-nome', !!v.nome], ['lf-whats', v.whats.replace(/\D/g, '').length >= 10], ['lf-emp', !!v.emp], ['lf-leads', !!v.leads]];
-    let first = null;
-    checks.forEach(([id, ok]) => { $(id).closest('.fld').classList.toggle('invalid', !ok); if (!ok && !first) first = $(id); });
-    if (first) { first.focus(); return; }
-    const msg = `Olá! Vim pelo site da NEX e quero ver a NEX no meu negócio.\n\nNome: ${v.nome}\nEmpresa: ${v.emp}\nWhatsApp: ${v.whats}\nContatos por mês: ${v.leads}`;
-    $('lead-wa').href = `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
-    $('lead-ok-t').textContent = `Pronto, ${v.nome.split(/\s+/)[0]}!`;
-    form.hidden = true; $('lead-ok').hidden = false; $('lead-wa').focus();
-  });
-
-  }
   // ---------- S2 telas passando ----------
   // escala o mockup para caber inteiro na largura disponível
   const fit = $('ax2-fit'), ax2 = $('ax2');
@@ -1548,6 +1545,7 @@ section.block,section.sec:not(#sistema),footer{content-visibility:auto;contain-i
     fc.hidden = false; fc.classList.remove('closing');
     document.documentElement.style.overflow = 'hidden';
     fc.querySelector('.fc-opt').focus();
+    window.nexTrack('AbriuFaleConosco', { content_name: 'Fale conosco' }, true);
   };
   const close = () => {
     fc.classList.add('closing');
